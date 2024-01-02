@@ -1,0 +1,9 @@
+# Exclude virtual environment folder
+venv/
+
+# Exclude pycache directory
+__pycache__/
+
+# Exclude all .env files
+*.env
+
