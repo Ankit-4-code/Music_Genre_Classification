@@ -7,7 +7,7 @@ from bentoml.io import JSON
 
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
-# Add the root directory to sys.path
+## Add the root directory to sys.path
 if root_dir not in sys.path:
     sys.path.append(root_dir)
 
@@ -24,12 +24,12 @@ async def classify_genre(request_json):
 
     features_list = request_json["features"]
 
-    # Check if the features need conversion from JSON lists to NumPy arrays
+    ## Check if the features need conversion from JSON lists to NumPy arrays
     if not isinstance(features_list[0], np.ndarray):
         features = [np.array(segment) for segment in features_list]
     else:
         features = features_list
-    # Reshape data and run predictions
+    ## Reshape data and run predictions
     predictions = []
     for segment in features:
         segment = np.expand_dims(segment, axis=0)  # Add batch dimension
@@ -37,7 +37,7 @@ async def classify_genre(request_json):
         prediction = await runner.async_run(segment)
         predictions.append(np.argmax(prediction, axis=1)[0])
 
-    # Aggregate predictions
+    ## Aggregate predictions
     final_prediction_index = vote(predictions)
     predicted_genre = genre_dict.get(final_prediction_index, "Unknown")
 

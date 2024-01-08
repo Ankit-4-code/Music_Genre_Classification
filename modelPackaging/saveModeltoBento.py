@@ -3,7 +3,7 @@ import sys
 import os
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
-# Add the root directory to sys.path
+## Add the root directory to sys.path
 if root_dir not in sys.path:
     sys.path.append(root_dir)
 
@@ -11,7 +11,7 @@ from app.model import build_and_load_model
 
 
 
-WEIGHTS_PATH = 'D:\ML\Music Genre Classification\model_weights.keras'
+WEIGHTS_PATH = 'models\model_weights.keras'
 
 def load_model_and_save_to_bento(WEIGHTS_PATH):
 
