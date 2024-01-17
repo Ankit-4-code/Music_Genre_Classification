@@ -6,9 +6,10 @@ include:
 - "modelPackaging/*.py"
 - "app/*.py"  # A pattern for matching which files to include in the bento
 python:
-    packages:  # Additional pip packages required by the service
-    - numpy==1.23.5
-    - tensorflow==2.12.0
-    - scipy==1.11.4
+    packages:
+        - numpy==1.23.5
+        - scipy==1.11.4
+        - tensorflow==2.12.0
+    
 models: # The model to be used for building the Bento.
 - cnn_keras_model:latest

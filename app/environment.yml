@@ -1,0 +1,10 @@
+name: myenv
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip==23.3.2
+  - flask==3.0.0
+  - librosa==0.10.1
+  - numpy==1.23.5
+  

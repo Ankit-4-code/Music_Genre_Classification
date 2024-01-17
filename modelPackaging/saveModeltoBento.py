@@ -11,7 +11,7 @@ from app.model import build_and_load_model
 
 
 
-WEIGHTS_PATH = 'models\model_weights.keras'
+WEIGHTS_PATH = '/app/models/model_weights.keras'
 
 def load_model_and_save_to_bento(WEIGHTS_PATH):
 

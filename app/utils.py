@@ -1,7 +1,9 @@
 import librosa
 from scipy import stats
 import numpy as np
+import logging
 
+logging.basicConfig(level=logging.INFO)
 ## Genre dictionary from colab environment
 genre_dict = {0: 'metal', 1: 'classical', 2: 'pop', 3: 'country', 4: 'disco',
               5: 'reggae', 6: 'blues', 7: 'jazz', 8: 'rock', 9: 'hiphop'}
@@ -10,9 +12,12 @@ genre_dict = {0: 'metal', 1: 'classical', 2: 'pop', 3: 'country', 4: 'disco',
 
 def load_song(song_path, sr= 22050):
     try:
+        logging.info(f"Attempting to load file: {song_path}")
         signal, _ = librosa.load(song_path, sr=sr)
+        logging.info(f"File loaded successfully: {song_path}")
         return signal
     except Exception as e:
+        logging.error(f"Error loading file {song_path}: {e}", exc_info=True)
         print(f"Error loading file {song_path}: {e}")
         return None
 
@@ -90,16 +95,22 @@ def preprocess_song(song_path, sr=22050, segment_duration=30, num_segments=5, mo
 
     ## Check if the song was loaded successfully
     if signal is None:
+        logging.error(f"Failed to load song: {song_path}")
         return None
     
     segments = extract_segments(signal, sr, segment_duration, num_segments)
 
+    if not segments:
+        logging.error("No segments extracted from the song")
+        return []
     ## Preprocess each segment
     preprocessed_segments = [extract_features(segment, sr) for segment in segments]
 
     ## Reshape for CNN if needed
     if model_type == 'CNN':
         preprocessed_segments = [np.expand_dims(segment, axis=-1) for segment in preprocessed_segments]
+
+    logging.info(f"Preprocessed data segments: {len(preprocessed_segments)} segments")
 
     return preprocessed_segments
 

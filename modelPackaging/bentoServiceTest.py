@@ -10,7 +10,7 @@ if root_dir not in sys.path:
 from app.utils import preprocess_song
 
 ## Replace with the path to your test song
-song_path = "D:\ML\Music Genre Classification\sampleSong\Eminem - The Real Slim Shady (Official Video - Dirty Version) (320 kbps).mp3"
+song_path = "/app/modelPackaging/Dua Lipa - New Rules (Official Music Video) (320 kbps).mp3"
 
 ## Use your preprocessing function
 preprocessed_data = preprocess_song(song_path)
@@ -21,7 +21,7 @@ serialized_data = [segment.tolist() for segment in preprocessed_data]
  """
 
 response = requests.post(
-    "http://127.0.0.1:3000/classify_genre", 
+    "http://0.0.0.0:3000/classify_genre", 
     json={"features": serialized_data},
     headers={"content-type": "application/json"}
 )
