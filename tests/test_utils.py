@@ -1,3 +1,8 @@
+'''
+This is the file which contains unit tests for all the functions in utils.py inside the app folder.
+
+'''
+
 import unittest
 from unittest.mock import Mock, patch
 import numpy as np

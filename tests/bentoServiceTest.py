@@ -1,7 +1,13 @@
+'''
+This .py file is used to test the bento service after loading and saving the model as a bento. It uses the utils.py from the app folder.
+And sends a request to the bento service at port 3000.
+
+'''
+
 import sys
 import os
 import requests
-import numpy as np
+import numpy
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
 ## Add the root directory to sys.path
@@ -10,7 +16,7 @@ if root_dir not in sys.path:
 from app.utils import preprocess_song
 
 ## Replace with the path to your test song
-song_path = "D:\ML\Music Genre Classification\sampleSong\Eminem - The Real Slim Shady (Official Video - Dirty Version) (320 kbps).mp3"
+song_path = "sampleSong\Eminem - The Real Slim Shady (Official Video - Dirty Version) (320 kbps).mp3"
 
 ## Use your preprocessing function
 preprocessed_data = preprocess_song(song_path)

@@ -1,12 +1,18 @@
+''' 
+Routes for all necessary predictions. Preprocesses song and sends requests to bento-service as defined in the docker-compose.yml.
+Handles basic error requests as well.
+
+'''
+
 from app import app
 from flask import request, render_template
 from werkzeug.utils import secure_filename
 import os
 import requests
-from .utils import preprocess_song
+from utils import preprocess_song
 import logging
 
-# configuration for logging
+## configuration for logging
 logging.basicConfig(level=logging.INFO)
 
 app.config['UPLOAD_FOLDER'] = 'uploads'

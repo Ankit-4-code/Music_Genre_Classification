@@ -1,3 +1,9 @@
+'''
+This service.py is used to create a runner object to wrap around our saved bento model which we have loaded with weights path previously.
+Then this runner is packed with a service which provides the api to access.
+Finally the whole bento service with runner is used to make a prediction for which our input request and output requests are both JSON object.
+'''
+
 import sys
 import os
 import numpy as np
@@ -32,8 +38,8 @@ async def classify_genre(request_json):
     ## Reshape data and run predictions
     predictions = []
     for segment in features:
-        segment = np.expand_dims(segment, axis=0)  # Add batch dimension
-        # Directly use runner for prediction on preprocessed features
+        segment = np.expand_dims(segment, axis=0)  ## Add batch dimension
+        ## Directly use runner for prediction on preprocessed features
         prediction = await runner.async_run(segment)
         predictions.append(np.argmax(prediction, axis=1)[0])
 

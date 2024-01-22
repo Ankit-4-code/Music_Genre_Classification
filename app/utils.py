@@ -1,3 +1,8 @@
+'''
+This utils.py contains all the important functions for loading , segmentation, feature extraction, predictions and final vote for genre predictions.
+This utils.py has mainly two parts preprocess_song and predictions.
+'''
+
 import librosa
 from scipy import stats
 import numpy as np

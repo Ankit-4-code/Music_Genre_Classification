@@ -1,10 +1,15 @@
+'''
+This model.py is used to build and load the model only once at the start of the bento-service container.
+
+'''
+
 import tensorflow as tf
 from tensorflow import keras
 
 
 def build_and_load_model(weights_path):
     
-    ## Define the model architecture
+    ## Define the model architecture from colab
     input_shape = (259, 160, 1)
     ## create model
     model = keras.Sequential()

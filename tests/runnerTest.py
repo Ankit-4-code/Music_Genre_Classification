@@ -1,3 +1,10 @@
+'''
+This file is used to test the bento runner to make a prediction on a sample song.
+The bento-runner is made after saving the model through bento.keras.save_model().
+
+'''
+
+
 import sys
 import os
 import numpy as np
@@ -36,7 +43,7 @@ def test_runner_with_song(song_path, model_name="cnn_keras_model:latest"):
 
 if __name__ == "__main__":
     ## Replace with the path to your test song
-    song_path = "D:\ML\Music Genre Classification\sampleSong\jazz.00025.wav"
+    song_path = "sampleSong\Louis Tomlinson - Back to You (Official Video) ft. Bebe Rexha, Digital Farm Animals (320 kbps).mp3"
     genre = test_runner_with_song(song_path)
     print(f"Predicted genre: {genre}")
 

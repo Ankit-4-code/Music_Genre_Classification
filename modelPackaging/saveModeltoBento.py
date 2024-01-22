@@ -1,3 +1,9 @@
+'''
+This .py is used to load the model with it's saved weights using the build_and_load_model function from model.py in app folder.
+Then that model is saved using the bentoml method. So, that it can be accessed anytime within our bentoml local repo.
+
+'''
+
 import bentoml
 import sys
 import os
