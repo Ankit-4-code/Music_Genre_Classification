@@ -1,0 +1,67 @@
+name: Deploy to AWS
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AWS_REGION: 'us-east-1'  ## set AWS region
+  ECR_REPOSITORY_NGINX: 'nginx-repo'
+  ECR_REPOSITORY_FLASK: 'flask-repo'
+  ECR_REPOSITORY_BENTO: 'bento-repo'
+  ECR_REPOSITORY: 'music_genre_classification'
+  VERSION: 'latest'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    ## AWS credentials steps here:
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    
+    ## Login to Amazon ECR
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+      with:
+        mask-password: 'false'
+    ## Build, tag and push nginx image to ECR
+    - name: Build, tag, and push Nginx image to Amazon ECR
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
+        IMAGE_TAG: ${{ env.ECR_REPOSITORY_NGINX }}:${{ env.VERSION }}
+      run: |
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./nginx
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+    ## Build, tag and push uwsgi-flask image to ECR
+    - name: Build, tag, and push Flask image to Amazon ECR
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
+        IMAGE_TAG: ${{ env.ECR_REPOSITORY_FLASK }}:${{ env.VERSION }}
+      run: |
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./app
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+    ## Build, tag and push bento-model image to ECR
+    - name: Build, tag, and push Bento image to Amazon ECR
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
+        IMAGE_TAG: ${{ env.ECR_REPOSITORY_BENTO }}:${{ env.VERSION }}
+      run: |
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./modelPackaging
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
