@@ -63,3 +63,47 @@ jobs:
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY_BENTO:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY_BENTO:$IMAGE_TAG
+
+  deploy-to-ec2:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Configure AWS credentials  ## AWS credentials configuration for this job againg due to paralled Virtual machines of the Github Runners
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+    
+    - name: Setting up SSH key
+      run: |
+        mkdir -p ~/.ssh/
+        echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+
+    - name: Create a new directory in EC2 instance
+      run: |
+        ssh -i ~/.ssh/id_rsa ${{ secrets.EC2_SSH_USER }}@${{ secrets.EC2_HOST }} "mkdir -p /home/ubuntu/deploy"
+      
+    - name: Transfer deployment script to EC2
+      run: |
+        scp -i ~/.ssh/id_rsa deploy.sh ${{ secrets.EC2_SSH_USER }}@${{ secrets.EC2_HOST }}:/home/ubuntu/deploy/deploy.sh
+
+    - name: Copy Docker Compose File to EC2
+      run: |
+        scp -i ~/.ssh/id_rsa docker-compose-production.yml ${{ secrets.EC2_SSH_USER }}@${{ secrets.EC2_HOST }}:/home/ubuntu/deploy/docker-compose-production.yml
+
+    - name: Execute deployment script on EC2
+      env:
+        AWS_REGION: ${{ env.AWS_REGION }}
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY_NGINX: ${{ env.ECR_REPOSITORY_NGINX }}
+        ECR_REPOSITORY_FLASK: ${{ env.ECR_REPOSITORY_FLASK }}
+        ECR_REPOSITORY_BENTO: ${{ env.ECR_REPOSITORY_BENTO }}
+        VERSION: ${{ env.VERSION }}
+      run: |
+        ssh -i ~/.ssh/id_rsa ${{ secrets.EC2_SSH_USER }}@${{ secrets.EC2_HOST }} "chmod +x /home/ubuntu/deploy/deploy.sh && /home/ubuntu/deploy/deploy.sh $AWS_REGION $ECR_REGISTRY $ECR_REPOSITORY_NGINX $ECR_REPOSITORY_FLASK $ECR_REPOSITORY_BENTO $VERSION"
