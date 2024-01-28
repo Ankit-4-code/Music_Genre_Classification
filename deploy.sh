@@ -7,6 +7,7 @@ ECR_REPOSITORY_NGINX=$3
 ECR_REPOSITORY_FLASK=$4
 ECR_REPOSITORY_BENTO=$5
 VERSION=$6
+ECR_REGISTRY=$7
 
 ## Navigate to the directory containing the docker-compose.yml file
 echo "Navigating to the Docker Compose directory..."

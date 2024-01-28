@@ -105,5 +105,6 @@ jobs:
         ECR_REPOSITORY_FLASK: ${{ env.ECR_REPOSITORY_FLASK }}
         ECR_REPOSITORY_BENTO: ${{ env.ECR_REPOSITORY_BENTO }}
         VERSION: ${{ env.VERSION }}
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
-        ssh -i ~/.ssh/id_rsa ${{ secrets.EC2_SSH_USER }}@${{ secrets.EC2_HOST }} "chmod +x /home/ubuntu/deploy/deploy.sh && /home/ubuntu/deploy/deploy.sh $AWS_REGION $AWS_ACCESS_KEY_ID $ECR_REPOSITORY_NGINX $ECR_REPOSITORY_FLASK $ECR_REPOSITORY_BENTO $VERSION"
+        ssh -i ~/.ssh/id_rsa ${{ secrets.EC2_SSH_USER }}@${{ secrets.EC2_HOST }} "chmod +x /home/ubuntu/deploy/deploy.sh && /home/ubuntu/deploy/deploy.sh $AWS_REGION $AWS_ACCESS_KEY_ID $ECR_REPOSITORY_NGINX $ECR_REPOSITORY_FLASK $ECR_REPOSITORY_BENTO $VERSION $ECR_REGISTRY"
