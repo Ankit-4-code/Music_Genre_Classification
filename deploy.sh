@@ -33,6 +33,6 @@ docker pull $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY_BE
 
 ## Launch the containers and connect the network using docker-compose
 echo "Launching the Docker compose with docker-compose-production.yml..."
-docker-compose up -d
+docker-compose -f docker-compose-production.yml up -d
 
 echo "Deployment completed successfully."
