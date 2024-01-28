@@ -100,11 +100,10 @@ jobs:
     - name: Execute deployment script on EC2
       env:
         AWS_REGION: ${{ env.AWS_REGION }}
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
         ECR_REPOSITORY_NGINX: ${{ env.ECR_REPOSITORY_NGINX }}
         ECR_REPOSITORY_FLASK: ${{ env.ECR_REPOSITORY_FLASK }}
         ECR_REPOSITORY_BENTO: ${{ env.ECR_REPOSITORY_BENTO }}
         VERSION: ${{ env.VERSION }}
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
-        ssh -i ~/.ssh/id_rsa ${{ secrets.EC2_SSH_USER }}@${{ secrets.EC2_HOST }} "chmod +x /home/ubuntu/deploy/deploy.sh && /home/ubuntu/deploy/deploy.sh $AWS_REGION $AWS_ACCESS_KEY_ID $ECR_REPOSITORY_NGINX $ECR_REPOSITORY_FLASK $ECR_REPOSITORY_BENTO $VERSION $ECR_REGISTRY"
+        ssh -i ~/.ssh/id_rsa ${{ secrets.EC2_SSH_USER }}@${{ secrets.EC2_HOST }} "chmod +x /home/ubuntu/deploy/deploy.sh && /home/ubuntu/deploy/deploy.sh $AWS_REGION $AWS_ACCOUNT_ID $ECR_REPOSITORY_NGINX $ECR_REPOSITORY_FLASK $ECR_REPOSITORY_BENTO $VERSION $ECR_REGISTRY"
