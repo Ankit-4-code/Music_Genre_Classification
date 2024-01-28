@@ -15,7 +15,7 @@ cd /home/ubuntu/deploy
 
 ## Log in to ECR
 echo "Logging in to Amazon ECR..."
-aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY #$AWS_ACCESS_KEY_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCESS_KEY_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
 ## Stop running containers and remove them along with their volumes
 echo "Stopping and removing existing Docker containers..."
@@ -28,9 +28,9 @@ docker system prune -a --volumes -f
 
 ## Pull images from ECR
 echo "Pulling Docker images..."
-docker pull $ECR_REGISTRY/$ECR_REPOSITORY_NGINX:$VERSION
-docker pull $ECR_REGISTRY/$ECR_REPOSITORY_FLASK:$VERSION
-docker pull $ECR_REGISTRY/$ECR_REPOSITORY_BENTO:$VERSION
+docker pull $AWS_ACCESS_KEY_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY_NGINX:$VERSION
+docker pull $AWS_ACCESS_KEY_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY_FLASK:$VERSION
+docker pull $AWS_ACCESS_KEY_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY_BENTO:$VERSION
 
 ## Launch the containers and connect the network using docker-compose
 echo "Launching the Docker compose with docker-compose-production.yml..."
