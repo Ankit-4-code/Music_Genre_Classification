@@ -15,7 +15,7 @@ cd /home/ubuntu/deploy
 
 ## Log in to ECR
 echo "Logging in to Amazon ECR..."
-aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCESS_KEY_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY #$AWS_ACCESS_KEY_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
 ## Stop running containers and remove them along with their volumes
 echo "Stopping and removing existing Docker containers..."
