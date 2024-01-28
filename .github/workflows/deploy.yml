@@ -78,7 +78,7 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
     
-    - name: Setting up SSH key
+    - name: Setting up SSH key ## Logging into EC2 instance
       run: |
         mkdir -p ~/.ssh/
         echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
