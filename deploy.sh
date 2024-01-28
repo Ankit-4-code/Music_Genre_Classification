@@ -22,7 +22,7 @@ docker-compose down -v
 
 ## Clean up Docker resources (images, containers, networks, volumes)
 echo "Cleaning up Docker resources..."
-docker system prune -a --volumes -f --filter "until=24h"
+docker system prune -a --volumes -f
 
 
 ## Pull images from ECR
