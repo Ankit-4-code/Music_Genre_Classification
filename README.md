@@ -78,7 +78,7 @@ The following table lists the secrets required by the GitHub Actions workflow an
 | `EC2_SSH_USER`             | Default SSH username for your EC2 instance (e.g., `ec2-user`, `ubuntu`).| Depends on the AMI used. Commonly `ec2-user` for Amazon Linux and `ubuntu` for Ubuntu.|
 | `EC2_HOST`                 | Public DNS or IP of your EC2 instance.                                 | Obtain from the EC2 Management Console after instance creation. This is the Public IPv4 DNS.               |
 
-When creating IAM user add 2 policies for ECR and EC2 push pull permissions. AmazonEC2ContainerRegistryFullAccess, AmazonEC2FullAccess. These two policies along with AdministratorAccess will give full access to all of ECR and EC2.
+When creating IAM user add 2 policies for ECR and EC2 push pull permissions. `AmazonEC2ContainerRegistryFullAccess`, `AmazonEC2FullAccess`. These two policies along with `AdministratorAccess` will give full access to all of ECR and EC2.
 
 <br>!!Note: This project uses the port 80 as the open port. Don't forget to open port 80 of AWS EC2 instance by adding a new security group. And public url is accessible on http instead of https. 
 
