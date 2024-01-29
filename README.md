@@ -40,7 +40,7 @@ Manual setup of the project uses the docker-compose.yml and init.sh files for al
    ssh -i /path/to/your-key.pem ec2-user@your-instance-public-dns
    ```
 
-3. **Deployment:** 
+### 3. **Deployment:** 
     Clone the project repo in the EC2 instance from GitHub.
     ```bash
     git clone https://github.com/Sun-of-a-beach/Music_Genre_Classification.git
