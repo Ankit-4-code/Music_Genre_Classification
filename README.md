@@ -12,6 +12,9 @@ This repo contains docker images to make 3 distinct containers namely nginx, uws
 ## Colab Notebook
 The `Notebook` folder contains a Google Colab notebook that illustrates the entire process of the project, from data analysis to model training, model evaluation and model saving for local use later. 
 
+## About the data
+The [GTZAN dataset](https://www.kaggle.com/datasets/andradaolteanu/gtzan-dataset-music-genre-classification) has been used to train these models. Although with features extraction, a custom dataset has been made for model training. Initial model is trained on 2000 samples for 10 genres. So, 200 samples per genre.<br>Here is the link for the [GTZAN dataset](https://drive.google.com/drive/folders/1yRfvQUQNhuSfFcPqCUxYn4KHtSTqtu4z?usp=drive_link) as the kaggle dataset had one corrupted file jazz.00054.wav at the time of testing. 
+
 ### Features of the Notebook
 - **Audio Data Analysis:** The notebook begins with an analysis of the audio data, explaining the characteristics and peculiarities of audio data in the context of machine learning.
 - **Feature Extraction:** Details the process of extracting meaningful features from raw audio data which are crucial for training the models.
@@ -80,7 +83,7 @@ The following table lists the secrets required by the GitHub Actions workflow an
 
 When creating IAM user add 2 policies for ECR and EC2 push pull permissions. `AmazonEC2ContainerRegistryFullAccess`, `AmazonEC2FullAccess`. These two policies along with `AdministratorAccess` will give full access to all of ECR and EC2.
 
-<br>!!Note: This project uses the port 80 as the open port. Don't forget to open port 80 of AWS EC2 instance by adding a new security group. And public url is accessible on http instead of https. 
+<br>`!!Note:` This project uses the port 80 as the open port. Don't forget to open port 80 of AWS EC2 instance by adding a new security group. And public url is accessible on http instead of https. 
 
 ## Conclusion
 This project demonstrates a comprehensive approach to building and deploying a machine learning model for music genre classification. The use of tools like Colab, Docker, AWS, and GitHub Actions showcases a professional workflow for machine learning and development projects.
