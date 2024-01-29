@@ -6,7 +6,7 @@ This project aims to classify music genres using various machine learning models
 This repo contains docker images to make 3 distinct containers namely nginx, uwsgi-flask app and bento-model. These 3 containers are built up and connected via docker-compose. 
 
 - nginx is used for reverse proxy. 
-- uwsgi and flask are used for wsgi protocol server and REST API respectively
+- uwsgi and flask are used for wsgi protocol server and REST API respectively.
 - bento-model contains packaged bento which is the keras model packaged and serviced with [BentoML](https://docs.bentoml.com/en/latest/).
 
 ## Colab Notebook
@@ -19,16 +19,17 @@ The `Notebook` folder contains a Google Colab notebook that illustrates the enti
 - **Model Selection and Saving:** Explains the criteria for selecting the final model and the process of saving it for deployment.
 
 ### Model Performance Graphs
+Out of all the models that were tested(sequential model, CNN, LSTM , different combinations of models for over-fitting) this project utilises the CNN model for it's genre predictions.
 Below are the performance graphs for the selected model. These graphs represent model accuracy and error vs training epochs.
 
-![Model Accuracy & Error Vs Epochs](images\CNN_model_Accuracy_&_Error_Vs_Epochs.png)
+![Model Accuracy & Error Vs Epochs](images/CNN_model_Accuracy_&_Error_Vs_Epochs.png)
 
 ## Manual AWS EC2 Installation
 For manual deployment on AWS EC2 instance, follow the steps below:
 Manual setup of the project uses the docker-compose.yml and init.sh files for all the installations and setting up the network.
 ### 1. **Set up EC2 Instance:**
-   - Follow the article to setup an EC2 linux x86_64 ubuntu:latest instance : [Setting up AWS EC2 instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html).
-   - This project is tested and developed on a t2.medium instance type.
+   - Follow the article to setup an EC2 linux x86_64 instance: [Setting up AWS EC2 instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html).
+   - This project is tested and developed on a t2.medium instance type and runs on ubuntu:latest.
 
 ### 2. **Environment Setup:**
    - Connect to your EC2 instance using SSH.
@@ -71,13 +72,15 @@ The following table lists the secrets required by the GitHub Actions workflow an
 |----------------------------|------------------------------------------------------------------------|-------------------------------------------------------------------------------|
 | `AWS_ACCESS_KEY_ID`        | AWS access key for programmatic access to AWS services.                | Create a new IAM user in AWS Management Console with programmatic access.     |
 | `AWS_SECRET_ACCESS_KEY`    | AWS secret access key for programmatic access to AWS services.         | Obtain it when you create a new IAM user. Keep it secure and don't share it.  |
-| `AWS_ACCOUNT_ID`           | Your AWS account ID.                                                   | Find in the AWS Management Console under "Support" -> "Support Center".       |
-| `AWS_REGION`               | AWS region where your services (like ECR, EC2) are hosted.             | Choose based on your geographical location or architecture requirements.      |
-| `EC2_SSH_PRIVATE_KEY`      | SSH private key to access your EC2 instances.                          | Generate an SSH key pair, use the private key here, and upload the public key to EC2.|
+| `AWS_ACCOUNT_ID`           | Your AWS account ID.                                                   | Connect to your EC2 instance using SSH, then run:<br>`aws sts get-caller-identity --query "Account" --output text`<br>Ensure you've configured AWS CLI with aws configure before running the command.      |
+| `AWS_REGION`               | AWS region where your services (like ECR, EC2) are hosted.             | Choose based on your geographical location or architecture requirements.<br>Add this inside the deploy.yml inside env. No need to add to Github Secrets.      |
+| `EC2_SSH_PRIVATE_KEY`      | SSH private key to access your EC2 instances.                          | Generate an SSH key pair, use the private key here, and upload the public key to EC2. This is the .pem file.<br>Copy everything inside and paste in Github Secrets.|
 | `EC2_SSH_USER`             | Default SSH username for your EC2 instance (e.g., `ec2-user`, `ubuntu`).| Depends on the AMI used. Commonly `ec2-user` for Amazon Linux and `ubuntu` for Ubuntu.|
-| `EC2_HOST`                 | Public DNS or IP of your EC2 instance.                                 | Obtain from the EC2 Management Console after instance creation.               |
+| `EC2_HOST`                 | Public DNS or IP of your EC2 instance.                                 | Obtain from the EC2 Management Console after instance creation. This is the Public IPv4 DNS.               |
 
-!!Note: This project uses the port 80 as the open port. Don't forget to open port 80 of AWS EC2 instance by adding a new security group. And public url is accessible on http instead of https. 
+When creating IAM user add 2 policies for ECR and EC2 push pull permissions. AmazonEC2ContainerRegistryFullAccess, AmazonEC2FullAccess. These two policies along with AdministratorAccess will give full access to all of ECR and EC2.
+
+<br>!!Note: This project uses the port 80 as the open port. Don't forget to open port 80 of AWS EC2 instance by adding a new security group. And public url is accessible on http instead of https. 
 
 ## Conclusion
 This project demonstrates a comprehensive approach to building and deploying a machine learning model for music genre classification. The use of tools like Colab, Docker, AWS, and GitHub Actions showcases a professional workflow for machine learning and development projects.
