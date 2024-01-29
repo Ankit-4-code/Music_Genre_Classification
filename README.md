@@ -44,12 +44,14 @@ Manual setup of the project uses the docker-compose.yml and init.sh files for al
 
 ### 3. **Deployment:** 
    - Clone the project repo in the EC2 instance from GitHub.
-   - And run the init.sh
-    ```bash
-    git clone https://github.com/Sun-of-a-beach/Music_Genre_Classification.git
-    cd Music_Genre_Classification
-    ./init.sh ## Run the init.sh ,that will install everything and run the containers at port 80.
-    ```
+   - And run the init.sh<br>
+   
+ ```bash
+## Clone the project repo
+git clone https://github.com/Sun-of-a-beach/Music_Genre_Classification.git
+cd Music_Genre_Classification ## Change dir to the project folder
+./init.sh ## Run the init.sh ,that will install everything and run the containers at port 80.
+ ```
 
 ## Automated Deployment using GitHub Actions
 Automated CI/CD pipeline( .github/workflows/deploy.yml) uses docker-compose-production.yml( updated image URI from ECR) and deploy.sh to install and run the containers. 
