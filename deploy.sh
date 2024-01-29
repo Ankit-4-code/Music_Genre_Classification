@@ -1,5 +1,8 @@
 #!/bin/bash
 
+## Exit immediately if a command exits with a non-zero status.
+set -e
+
 ## Set variables from environment
 AWS_REGION=$1
 AWS_ACCOUNT_ID=$2
@@ -18,7 +21,7 @@ aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --
 
 ## Stop running containers and remove them along with their volumes
 echo "Stopping and removing existing Docker containers..."
-docker-compose down -v || echo "No running containers to stop."
+docker-compose -f docker-compose-production.yml down  -v || echo "No running containers to stop."
 
 ## Clean up Docker resources (images, containers, networks, volumes)
 echo "Cleaning up Docker resources..."
