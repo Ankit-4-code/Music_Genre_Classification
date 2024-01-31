@@ -5,9 +5,9 @@ This project aims to classify music genres using various machine learning models
 
 This repo contains docker images to make 3 distinct containers namely nginx, uwsgi-flask app and bento-model. These 3 containers are built up and connected via docker-compose. 
 
-- nginx is used for reverse proxy. 
-- uwsgi and flask are used for wsgi protocol server and REST API respectively.
-- bento-model contains packaged bento which is the keras model packaged and serviced with [BentoML](https://docs.bentoml.com/en/latest/).
+- nginx is used for reverse proxy. This can be found in the `nginx` folder with it's docker image. 
+- uwsgi and flask are used for wsgi protocol server and REST API respectively. This can be located inside the `app` folder along with it's docker image.
+- bento-model contains packaged bento which is the keras model packaged and serviced with [BentoML](https://docs.bentoml.com/en/latest/). This can be found inside the `modelPackaging` folder but it's docker image resides in the project root. 
 
 ## Colab Notebook
 The `Notebook` folder contains a Google Colab notebook that illustrates the entire process of the project, from data analysis to model training, model evaluation and model saving for local use later. 
@@ -59,7 +59,7 @@ Automated CI/CD pipeline( .github/workflows/deploy.yml) uses docker-compose-prod
 This project uses GitHub Actions for Continuous Integration and Continuous Deployment (CI/CD). The workflow involves:
 
 1. **Pushing to the Repository:** Any push to the main branch triggers the CI/CD pipeline.
-2. **Building Docker Images:** The workflow builds Docker images for the application and pushes them to AWS ECR. It creates 3 separate ECR repos and images. The repos and images should have the same name_space.
+2. **Building Docker Images:** The workflow builds Docker images for the application and pushes them to AWS ECR. It creates 3 separate ECR repos and images. The repos and images should have the same name_space. Don't forget to create 3 distinct repos in ECR before starting the workflow or else it will throw an error.
 3. **Deployment to AWS EC2:** After pushing the images to ECR, the workflow pulls the images from ECR in EC2 and deploys them on AWS EC2 using `docker-compose`.
 
 For more details, refer to the `.github/workflows/deploy.yml` file in the repository.
